@@ -11,10 +11,10 @@ jobs:
             POSTGRES_PASSWORD: 2396
             POSTGRES_DBNAME: postgres
             POSTGRES_USER: rin
-            POSTGRES_PORT: 38746
+            POSTGRES_PORT: 5555
             POSTGRES_HOST: 127.0.0.1
           ports:
-          - 38746:5432
+          - 5555:5432
       steps:
       - uses: actions/checkout@v2
       - name: Python setup
