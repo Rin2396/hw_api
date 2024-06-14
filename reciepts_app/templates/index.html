@@ -1,0 +1,37 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - Flask</title>
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+<nav>
+  
+  <h1>Reciepts</h1>
+
+  <div>
+    <form method="GET" action="/">
+      <input type="text" name="name" placeholder="Search for a recipe">
+      <input type="submit" value="Search">
+    </form>
+
+    <form method="GET" action="/">
+      <input type="submit" value="Reciepts">
+    </form>
+
+    <br>
+    {% for reciept in reciepts %}
+    <ul>
+      <li>{{ reciept['name'] }}</li>
+      <li>Reciept: {{ reciept['description'] }}</li>
+      <li>Needed products: {{ reciept['products'] }}</li>
+    </ul>
+    <br>
+    {% endfor %}
+  </div>
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>

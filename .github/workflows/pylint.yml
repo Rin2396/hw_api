@@ -1,0 +1,61 @@
+name: Tests and Linter
+on: [push]
+jobs:
+  container-job:
+      name: tests
+      runs-on: ubuntu-latest
+      services:
+        postgres:
+          image: postgres
+          env:
+            POSTGRES_PASSWORD: 2396
+            POSTGRES_DBNAME: postgres
+            POSTGRES_USER: rin
+            POSTGRES_PORT: 38746
+            POSTGRES_HOST: 127.0.0.1
+          ports:
+          - 38746:5432
+      steps:
+      - uses: actions/checkout@v2
+      - name: Python setup
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.12.3"
+      - name: Dependencies install and test api
+        env:
+            POSTGRES_PASSWORD: 2396
+            POSTGRES_DBNAME: postgres
+            POSTGRES_USER: rin
+            POSTGRES_PORT: 38746
+            POSTGRES_HOST: 127.0.0.1
+            FLASK_PORT: 5001
+        run: |
+          PGPASSWORD=test psql -h 127.0.0.1 -p 38746 -d postgres -U rin -c 'create extension if not exists "uuid-ossp"; create schema reciept_site; create table reciept_site.reciepts(id uuid primary key default uuid_generate_v4(),name text,description text, products text);' 
+          python3 -m pip install --upgrade pip
+          pip install -r requirements.txt
+          cd reciepts_app
+          python3 -m pip install pytest
+          pip install gunicorn
+          python3 -m gunicorn --bind=127.0.0.1:${FLASK_PORT} app:app -w=4 --daemon
+          ping 127.0.0.1 -c 4
+          pytest test_api.py
+
+  linter:
+    name: linter
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.12.3
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install flake8
+        python -m pip install wemake-python-styleguide
+    - name: Flake8
+      run: |
+        cd reciept_app
+        flake8 .
+    
