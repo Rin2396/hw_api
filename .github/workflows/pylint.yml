@@ -30,7 +30,7 @@ jobs:
             POSTGRES_HOST: 127.0.0.1
             FLASK_PORT: 5001
         run: |
-          psql -h 127.0.0.1 -p 5432 -U rin -W 2396 POSTGRES_DBNAME -c 'create extension if not exists "uuid-ossp"; create schema reciept_site; create table reciept_site.reciepts(id uuid primary key default uuid_generate_v4(),name text,description text, products text);' 
+          PGPASSWORD=2396 psql -h 127.0.0.1 -p 38746 -d postgres -U rin -c 'create extension if not exists "uuid-ossp"; create schema reciept_site; create table reciept_site.reciepts(id uuid primary key default uuid_generate_v4(),name text,description text, products text);' 
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
           cd reciepts_app
