@@ -18,7 +18,6 @@ def welcomepage():
     Returns:
         str: render a template by name
     """
-    get_reciepts()
     try:
         data = get_reciepts()
     except Exception:
@@ -52,7 +51,8 @@ def get_reciepts():
             if external_reciept:
                 return reciept_info_from_api(external_reciept)
     except OperationalError:
-        return SERVER_ERROR
+        return 'There is no such reciept.', SERVER_ERROR
+    return []
 
 
 @app.post('/reciepts/create')
@@ -76,9 +76,8 @@ def create_reciept():
 
     with connection.cursor() as cursor:
         cursor.execute(query)
-        result = cursor.fetchone()
 
-    return result, OK
+    return 'created', OK
 
 
 @app.put('/reciepts/update')

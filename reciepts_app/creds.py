@@ -5,7 +5,7 @@ import psycopg2
 from dotenv import load_dotenv
 from flask import Flask
 
-from stuff import DEFAULT_PORT
+DEFAULT = 5001
 
 load_dotenv()
 
@@ -20,4 +20,4 @@ connection = psycopg2.connect(
     password=getenv('POSTGRES_PASSWORD'),
 )
 
-FLASK_PORT = int(getenv('FLASK_PORT', default=DEFAULT_PORT))
+FLASK_PORT = int(getenv('FLASK_PORT', default=DEFAULT))
