@@ -11,5 +11,5 @@ NOT_FOUND = 404
 TEAPOT = 418
 NO_CONTENT = 204
 TIMEOUT = 120
-URL = 'http://127.0.0.1:5000'
+URL = 'http://127.0.0.1:5001'
 EXTRA_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s='

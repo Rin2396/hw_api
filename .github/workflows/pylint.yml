@@ -11,10 +11,10 @@ jobs:
             POSTGRES_PASSWORD: 2396
             POSTGRES_DBNAME: postgres
             POSTGRES_USER: rin
-            POSTGRES_PORT: 5555
+            POSTGRES_PORT: 38746
             POSTGRES_HOST: 127.0.0.1
           ports:
-          - 5555:5432
+          - 38746:5432
       steps:
       - uses: actions/checkout@v2
       - name: Python setup
@@ -26,11 +26,11 @@ jobs:
             POSTGRES_PASSWORD: 2396
             POSTGRES_DBNAME: postgres
             POSTGRES_USER: rin
-            POSTGRES_PORT: 5555
+            POSTGRES_PORT: 38746
             POSTGRES_HOST: 127.0.0.1
-            FLASK_PORT: 5000
+            FLASK_PORT: 5001
         run: |
-          PGPASSWORD=2396 psql -h 127.0.0.1 -p 5555 -d postgres -U rin -c 'create extension if not exists "uuid-ossp"; create schema reciept_site; create table reciept_site.reciepts(id uuid primary key default uuid_generate_v4(),name text,description text, products text);' 
+          PGPASSWORD=2396 psql -h 127.0.0.1 -p 38746 -d postgres -U rin -c 'create extension if not exists "uuid-ossp"; create schema reciept_site; create table reciept_site.reciepts(id uuid primary key default uuid_generate_v4(),name text,description text, products text);' 
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
           cd reciepts_app
@@ -39,7 +39,6 @@ jobs:
           python3 -m gunicorn --bind=127.0.0.1:${FLASK_PORT} app:app -w=4 --daemon
           ping 127.0.0.1 -c 4
           pytest test_api.py
-
   linter:
     name: linter
     runs-on: ubuntu-latest
@@ -58,4 +57,3 @@ jobs:
       run: |
         cd reciepts_app
         flake8 .
-    
