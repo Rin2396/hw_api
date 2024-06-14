@@ -21,11 +21,3 @@ connection = psycopg2.connect(
 )
 
 FLASK_PORT = int(getenv('FLASK_PORT', default=DEFAULT_PORT))
-
-# echo "# hw_api" >> README.md
-# git init
-# git add README.md
-# git commit -m "first commit"
-# git branch -M main
-# git remote add origin https://github.com/Rin2396/hw_api.git
-# git push -u origin main
