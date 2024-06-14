@@ -56,6 +56,6 @@ jobs:
         python -m pip install wemake-python-styleguide
     - name: Flake8
       run: |
-        cd reciept_app
+        cd reciepts_app
         flake8 .
     
